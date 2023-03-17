@@ -65,17 +65,17 @@ body{
     margin: 1rem;
 }
 
-.songs{
+#songs{
     padding: 0;
     margin: 0;
     list-style: none;
 }
 
-.songs li{
+#songs li{
     margin-bottom: .9rem;
 }
 
-.songs a{
+#songs a{
     color: white;
     text-decoration: none;
 }
