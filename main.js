@@ -19,7 +19,9 @@ const songList = [
 
 const songs = document.getElementById("songs"),
       audio = document.getElementById("audio"),
-      cover = document.getElementById("cover");  
+      cover = document.getElementById("cover");
+      
+/* console.log(songs, audio, cover); */
 
 //cargamos canciones
 const loadSongs = () =>{
@@ -29,7 +31,7 @@ const loadSongs = () =>{
         const li = document.createElement("li"),
               link = document.createElement("a");
 
-        link.addEventListener("Click", ()=>loadSong(index));
+        link.addEventListener("click", ()=>loadSong(index));
         link.href = "#";
         link.textContent = song.title;
         li.appendChild(link);
@@ -38,12 +40,12 @@ const loadSongs = () =>{
 };
 //desplegamos una cancion
 const loadSong = (songIndex) => {
-
-    audio.src = "./music/" + songList[songIndex].file;
+    console.log(songIndex);
+    audio.src = "assets/music/" + songList[songIndex].file;
     audio.play();
 };
 
-loadSong();
+loadSongs();
 
 
 
