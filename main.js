@@ -17,20 +17,30 @@ const songList = [
     },
 ];
 
-const songs = document.getElementById("songs")
-console.log(songs);
+const songs = document.getElementById("songs"),
+      audio = document.getElementById("audio"),
+      cover = document.getElementById("cover");  
 
-const loadSong = () =>{
+//cargamos canciones
+const loadSongs = () =>{
     
-    songList.forEach(song=>{
+    songList.forEach((song, index)=>{
     /* console.log(song); */
         const li = document.createElement("li"),
               link = document.createElement("a");
 
+        link.addEventListener("Click", ()=>loadSong(index));
+        link.href = "#";
         link.textContent = song.title;
         li.appendChild(link);
         songs.appendChild(li);
     });
+};
+//desplegamos una cancion
+const loadSong = (songIndex) => {
+
+    audio.src = "./music/" + songList[songIndex].file;
+    audio.play();
 };
 
 loadSong();
