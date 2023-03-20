@@ -22,6 +22,11 @@ const songs = document.getElementById("songs"),
       titulo = document.getElementById("title"),
       cover = document.getElementById("cover");
 
+const play = document.getElementById("play"),
+      prev = document.getElementById("prev"),
+      next = document.getElementById("next");
+ 
+/* let active = null; */
 let actualSong = null; //evita que la cancion se repita cuando le da click
 /* console.log(songs, audio, cover); */
 
@@ -33,7 +38,10 @@ const loadSongs = () =>{
         const li = document.createElement("li"),
               link = document.createElement("a");
 
-        link.addEventListener("click", ()=>loadSong(index));
+        link.addEventListener("click", ()=>{
+            classActive(index);
+            loadSong(index)
+        });
         link.href = "#";
         link.textContent = song.title;
         li.appendChild(link);
@@ -47,7 +55,7 @@ const loadSong = (songIndex) => {
         audio.src = "assets/music/" + songList[songIndex].file;
         cargarTitulo(songIndex);
         cargarCover(songIndex);
-        audio.play();
+        playSong();
     }
 };
 
@@ -58,8 +66,50 @@ const cargarTitulo = (songIndex) => {
 const cargarCover = (songIndex) => {
     cover.src = "assets/imgs/" + songList[songIndex].cover; 
 }
+const classActive = (active) => {
+    const links = document.querySelectorAll("a");
+    links.forEach((link, index) =>{
+        if ( index === active ){
+            link.className = "active";
+        } else {
+            link.className = "";
+        }
 
+    });
+};
+
+const playSong = () => {
+    audio.play();
+    updateControls();
+};
+
+const pauseSong = () => {
+    audio.pause();
+    updateControls();
+};
+
+const updateControls = () => {
+    if (audio.paused){
+        play.classList.add("fa-play");
+        play.classList.remove("fa-pause");
+    } else {
+        play.classList.remove("fa-play");
+        play.classList.add("fa-pause");
+    }
+};
+
+play.addEventListener ("click", () => {
+    if (audio.paused){
+        playSong();
+        console.log("entro a true es play soon")
+    } else {
+        pauseSong();
+        console.log("entro a false")
+    };
+
+});
 loadSongs();
+
 
 
 
