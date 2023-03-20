@@ -19,8 +19,10 @@ const songList = [
 
 const songs = document.getElementById("songs"),
       audio = document.getElementById("audio"),
+      titulo = document.getElementById("title"),
       cover = document.getElementById("cover");
-      
+
+let actualSong = null; //evita que la cancion se repita cuando le da click
 /* console.log(songs, audio, cover); */
 
 //cargamos canciones
@@ -40,10 +42,22 @@ const loadSongs = () =>{
 };
 //desplegamos una cancion
 const loadSong = (songIndex) => {
-    console.log(songIndex);
-    audio.src = "assets/music/" + songList[songIndex].file;
-    audio.play();
+    if (actualSong !== songIndex) {
+        actualSong = songIndex;
+        audio.src = "assets/music/" + songList[songIndex].file;
+        cargarTitulo(songIndex);
+        cargarCover(songIndex);
+        audio.play();
+    }
 };
+
+const cargarTitulo = (songIndex) => {
+    titulo.textContent = songList[songIndex].title;
+};
+
+const cargarCover = (songIndex) => {
+    cover.src = "assets/imgs/" + songList[songIndex].cover; 
+}
 
 loadSongs();
 
