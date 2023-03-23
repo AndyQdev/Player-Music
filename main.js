@@ -56,6 +56,7 @@ const loadSong = (songIndex) => {
         cargarTitulo(songIndex);
         cargarCover(songIndex);
         playSong();
+        classActive(songIndex);
     }
 };
 
@@ -101,13 +102,35 @@ const updateControls = () => {
 play.addEventListener ("click", () => {
     if (audio.paused){
         playSong();
-        console.log("entro a true es play soon")
     } else {
         pauseSong();
-        console.log("entro a false")
     };
 
 });
+
+const nextSong = () => {
+    if (actualSong < songList.length -1){
+        loadSong(actualSong + 1);
+
+    } else { 
+        loadSong(0);
+    };
+
+};
+
+const prevSong = () => {
+    if (actualSong > 0){
+        loadSong(actualSong - 1);
+
+    } else { 
+        loadSong(songList.length -1);
+    };
+
+};
+
+next.addEventListener("click", () => nextSong());
+prev.addEventListener("click", () => prevSong());
+
 loadSongs();
 
 
