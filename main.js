@@ -25,10 +25,13 @@ const songs = document.getElementById("songs"),
 const play = document.getElementById("play"),
       prev = document.getElementById("prev"),
       next = document.getElementById("next");
+
+const progress = document.getElementById("progress");
  
 /* let active = null; */
 let actualSong = null; //evita que la cancion se repita cuando le da click
-/* console.log(songs, audio, cover); */
+
+audio.addEventListener("timeupdate", () => updateProgress(audio.duration, audio.currentTime));
 
 //cargamos canciones
 const loadSongs = () =>{
@@ -126,6 +129,12 @@ const prevSong = () => {
         loadSong(songList.length -1);
     };
 
+};
+
+const updateProgress = (duration, currentTime) => { //pasamos la duracion de la cancion, y el tiempo real que se va reproduciendo
+    const percent = (currentTime / duration)*100;
+
+    progress.style.width = percent + "%";
 };
 
 next.addEventListener("click", () => nextSong());
