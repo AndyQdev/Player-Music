@@ -26,13 +26,13 @@ const play = document.getElementById("play"),
       prev = document.getElementById("prev"),
       next = document.getElementById("next");
 
-const progress = document.getElementById("progress");
+const progress = document.getElementById("progress"),
+      progressContainer = document.getElementById("progress-container");   
  
 /* let active = null; */
 let actualSong = null; //evita que la cancion se repita cuando le da click
 
 audio.addEventListener("timeupdate", () => updateProgress(audio.duration, audio.currentTime));
-
 //cargamos canciones
 const loadSongs = () =>{
     
@@ -132,6 +132,7 @@ const prevSong = () => {
 };
 
 const updateProgress = (duration, currentTime) => { //pasamos la duracion de la cancion, y el tiempo real que se va reproduciendo
+    
     const percent = (currentTime / duration)*100;
 
     progress.style.width = percent + "%";
@@ -139,6 +140,19 @@ const updateProgress = (duration, currentTime) => { //pasamos la duracion de la 
 
 next.addEventListener("click", () => nextSong());
 prev.addEventListener("click", () => prevSong());
+
+const SetProgress = (event) => {
+    const TotalWidth = progressContainer.offsetWidth; //total de px de la barra de progress
+    const progressWidth = event.offsetX; //en que px dio click
+    audio.currentTime = ( progressWidth / TotalWidth ) * audio.duration;
+    
+};
+
+
+
+progressContainer.addEventListener("click",(event) => SetProgress (event));
+
+
 
 loadSongs();
 
