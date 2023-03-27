@@ -151,8 +151,7 @@ const SetProgress = (event) => {
 
 
 progressContainer.addEventListener("click",(event) => SetProgress (event));
-
-
+audio.addEventListener("ended", () => nextSong());
 
 loadSongs();
 
