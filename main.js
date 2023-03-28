@@ -28,16 +28,14 @@ const play = document.getElementById("play"),
 
 const progress = document.getElementById("progress"),
       progressContainer = document.getElementById("progress-container");   
- 
-/* let active = null; */
+
 let actualSong = null; //evita que la cancion se repita cuando le da click
 
-audio.addEventListener("timeupdate", () => updateProgress(audio.duration, audio.currentTime));
 //cargamos canciones
 const loadSongs = () =>{
     
     songList.forEach((song, index)=>{
-    /* console.log(song); */
+    
         const li = document.createElement("li"),
               link = document.createElement("a");
 
@@ -63,23 +61,12 @@ const loadSong = (songIndex) => {
     }
 };
 
-const cargarTitulo = (songIndex) => {
-    titulo.textContent = songList[songIndex].title;
-};
+const cargarTitulo = (songIndex) => titulo.textContent = songList[songIndex].title;
+const cargarCover = (songIndex)  => cover.src = "assets/imgs/" + songList[songIndex].cover; 
 
-const cargarCover = (songIndex) => {
-    cover.src = "assets/imgs/" + songList[songIndex].cover; 
-}
 const classActive = (active) => {
     const links = document.querySelectorAll("a");
-    links.forEach((link, index) =>{
-        if ( index === active ){
-            link.className = "active";
-        } else {
-            link.className = "";
-        }
-
-    });
+    links.forEach((link, index) =>( index === active ) ? link.className = "active": link.className = "");
 };
 
 const playSong = () => {
@@ -102,54 +89,24 @@ const updateControls = () => {
     }
 };
 
-play.addEventListener ("click", () => {
-    if (audio.paused){
-        playSong();
-    } else {
-        pauseSong();
-    };
+play.addEventListener ("click", () => (audio.paused) ? playSong(): pauseSong());
 
-});
+const nextSong = () => (actualSong < songList.length -1) ? loadSong(actualSong + 1): loadSong(0);
 
-const nextSong = () => {
-    if (actualSong < songList.length -1){
-        loadSong(actualSong + 1);
+const prevSong = () => (actualSong > 0) ? loadSong(actualSong - 1): loadSong(songList.length -1);
 
-    } else { 
-        loadSong(0);
-    };
-
-};
-
-const prevSong = () => {
-    if (actualSong > 0){
-        loadSong(actualSong - 1);
-
-    } else { 
-        loadSong(songList.length -1);
-    };
-
-};
-
-const updateProgress = (duration, currentTime) => { //pasamos la duracion de la cancion, y el tiempo real que se va reproduciendo
-    
-    const percent = (currentTime / duration)*100;
-
-    progress.style.width = percent + "%";
-};
-
-next.addEventListener("click", () => nextSong());
-prev.addEventListener("click", () => prevSong());
+const updateProgress = (duration, currentTime) => progress.style.width = ((currentTime / duration)*100) + "%";  //pasamos la duracion de la cancion, y el tiempo real que se va reproduciendo
 
 const SetProgress = (event) => {
     const TotalWidth = progressContainer.offsetWidth; //total de px de la barra de progress
     const progressWidth = event.offsetX; //en que px dio click
-    audio.currentTime = ( progressWidth / TotalWidth ) * audio.duration;
-    
+    audio.currentTime = ( progressWidth / TotalWidth ) * audio.duration;   
 };
 
 
-
+next.addEventListener("click", () => nextSong());
+prev.addEventListener("click", () => prevSong());
+audio.addEventListener("timeupdate", () => updateProgress(audio.duration, audio.currentTime));
 progressContainer.addEventListener("click",(event) => SetProgress (event));
 audio.addEventListener("ended", () => nextSong());
 
